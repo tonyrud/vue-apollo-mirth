@@ -1,0 +1,16 @@
+query Patient($id: String) {
+    patient(id: $id) {
+        gender
+        name {
+            first
+            last
+            full
+        }
+        practitioner {
+            education {
+                degree
+                graduationDate(count: AS_YEARS)
+            }
+        }
+    }
+}

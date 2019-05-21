@@ -1,0 +1,52 @@
+<template>
+    <div class="patient-table">
+        <h1>Patients</h1>
+        <v-data-table
+            :headers="headers"
+            :items="patients"
+            class="elevation-1"
+        >
+      <template v-slot:items="props">
+        <td>{{ props.item.name && props.item.name.first }}</td>
+        <td >{{ props.item.phone && props.item.phone.home }}</td>
+        <td >{{ props.item.birthDate }}</td>
+        <td >{{ props.item.lastUpdated }}</td>
+        <td >{{ props.item.gender }}</td>
+        <td >{{ props.item.practitioner }}</td>
+      </template>
+      <template v-slot:pageText="props">
+        Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+      </template>
+    </v-data-table>
+    </div>
+</template>
+
+<script>
+import PatientsQuery from "../graphql/Queries/Patients.gql";
+export default {
+  name: "PatientTable",
+  apollo: {
+    patients: PatientsQuery
+  },
+  data() {
+    return {
+      headers: [
+        {
+          text: "Name",
+          align: "left",
+          sortable: false,
+          value: "name"
+        },
+        { text: "Phone", value: "phone", sortable: false },
+        { text: "Birth Date", value: "bd", sortable: false },
+        { text: "Last Updated", value: "last-updated", sortable: false },
+        { text: "Gender", value: "gender", sortable: false },
+        { text: "Practitioner", value: "practitioner", sortable: false }
+      ]
+    };
+  }
+};
+</script>
+
+<style scoped rel="stylesheet/scss" lang="scss" type="text/scss">
+</style>

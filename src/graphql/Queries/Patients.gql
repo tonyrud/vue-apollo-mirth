@@ -1,0 +1,14 @@
+query patients {
+    patients {
+        name {
+            first
+            last
+        }
+        phone {
+            home
+        }
+        birthDate
+        lastUpdated
+        gender
+    }
+}

@@ -1,8 +1,13 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import './plugins/vuetify'
+import App from './App.vue';
 
-Vue.config.productionTip = false
+import 'vuetify/dist/vuetify.min.css';
+import { createProvider } from './vue-apollo'
+
+Vue.config.productionTip = false;
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+    apolloProvider: createProvider(),
+    render: h => h(App)
+}).$mount('#app');

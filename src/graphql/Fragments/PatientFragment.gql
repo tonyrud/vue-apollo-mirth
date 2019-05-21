@@ -1,0 +1,14 @@
+fragment Patient on Patient {
+    gender
+    name {
+        first
+        last
+        full
+    }
+    practitioner {
+        education {
+            degree
+            graduationDate(count: AS_YEARS)
+        }
+    }
+}
