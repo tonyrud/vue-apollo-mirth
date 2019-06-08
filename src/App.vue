@@ -11,50 +11,65 @@
         :variables="{ id }"
       >
         <template slot-scope="{ result: { loading, error, data } }">
-          <div v-if="loading" class="loading">Loading...</div>
-          <div v-else-if="error" class="error">An error occured</div>
-          <div v-else-if="data" class="result">Welcome, {{ data.patient.name.full }}</div>
-          <div v-else class="no-result apollo">No result :(</div>
+          <div v-if="error" class="error">An error occured</div>
+          <div v-else-if="data" @click="showDialog" class="result">
+            Welcome, {{ data.patient.name.first }}
+            <Dialog
+              @closeModal="showDialog"
+              :name="data.patient.name.first"
+              :dialog="dialog" />
+          </div>
         </template>
       </ApolloQuery>
-
-        <!-- <span class="mr-2">Welcome, {{patient.name.first}}</span> -->
     </v-toolbar>
 
     <v-content>
       <PatientTable/>
     </v-content>
+    
   </v-app>
 </template>
 
 <script>
 import PatientTable from "./components/PatientTable";
-// import PatientQuery from "./graphql/Patient.gql";
+import Dialog from "./components/Dialog";
 
 export default {
   name: "App",
   components: {
+    Dialog,
     PatientTable
   },
-  // apollo: {
-  //   patient: PatientQuery
-  // },
   data() {
     return {
       id: "",
+      dialog: false,
       patient: {
         name: {
           first: "no data"
         }
       }
     };
+  },
+  methods: {
+    showDialog() {
+      this.dialog = !this.dialog;
+    }
   }
 };
 </script>
 
 <style lang="scss">
-.v-content__wrap {
-  padding: 2rem;
+.v-content {
+  &__wrap {
+    padding: 2rem;
+  }
+}
+.result {
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: rgb(66, 66, 66);
 }
 </style>
 

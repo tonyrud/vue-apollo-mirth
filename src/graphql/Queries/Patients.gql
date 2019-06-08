@@ -10,5 +10,10 @@ query patients {
         birthDate
         lastUpdated
         gender
+        practitioner {
+            name {
+                full
+            }
+        }
     }
 }

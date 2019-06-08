@@ -1,18 +1,20 @@
 <template>
     <div class="patient-table">
-        <h1>Patients</h1>
+        <h1 class="patient-table__heading">Patients</h1>
         <v-data-table
             :headers="headers"
             :items="patients"
+            :pagination.sync="pagination"
             class="elevation-1"
         >
       <template v-slot:items="props">
         <td>{{ props.item.name && props.item.name.first }}</td>
+        <td>{{ props.item.name && props.item.name.last }}</td>
         <td >{{ props.item.phone && props.item.phone.home }}</td>
         <td >{{ props.item.birthDate }}</td>
         <td >{{ props.item.lastUpdated }}</td>
         <td >{{ props.item.gender }}</td>
-        <td >{{ props.item.practitioner }}</td>
+        <td >{{ props.item.practitioner.name.full }}</td>
       </template>
       <template v-slot:pageText="props">
         Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
@@ -30,12 +32,21 @@ export default {
   },
   data() {
     return {
+      pagination: {
+        rowsPerPage: 10
+      },
       headers: [
         {
-          text: "Name",
+          text: "First",
           align: "left",
           sortable: false,
-          value: "name"
+          value: "first"
+        },
+        {
+          text: "Last",
+          align: "left",
+          sortable: false,
+          value: "last"
         },
         { text: "Phone", value: "phone", sortable: false },
         { text: "Birth Date", value: "bd", sortable: false },
@@ -49,4 +60,9 @@ export default {
 </script>
 
 <style scoped rel="stylesheet/scss" lang="scss" type="text/scss">
+.patient-table {
+  &__heading {
+    margin-bottom: 0.8rem;
+  }
+}
 </style>
