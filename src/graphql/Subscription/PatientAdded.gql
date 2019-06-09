@@ -1,0 +1,11 @@
+#import "./MessageFragment.gql"
+
+subscription patientAdded {
+    patientAdded {
+        patient {
+            name {
+                first
+            }
+        }
+    }
+}

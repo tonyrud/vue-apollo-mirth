@@ -40,6 +40,9 @@
 </template>
 
 <script>
+import changePatientName from "./../graphql/Mutations/changePatientName.gql";
+import PatientQuery from "../graphql/Queries/Patient.gql";
+
 export default {
   name: "Dialog",
   props: {
@@ -59,6 +62,21 @@ export default {
   methods: {
     submit() {
       console.log("form submitted", this.inputName);
+      this.$apollo.mutate({
+        mutation: changePatientName,
+        variables: {
+          patientName: this.inputName
+        },
+        update: (store, { data: { changePatientName } }) => {
+          const queryData = {
+            query: PatientQuery,
+            variables: { id: "" }
+          };
+          const storeData = store.readQuery(queryData);
+          storeData.patient.name.first = changePatientName.name.first;
+          store.writeQuery({ ...queryData, data: storeData });
+        }
+      });
     }
   }
 };

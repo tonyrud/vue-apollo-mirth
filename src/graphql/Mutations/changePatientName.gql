@@ -1,0 +1,7 @@
+mutation changePatientName($patientName: String!) {
+    changePatientName(patientName: $patientName) {
+        name {
+            first
+        }
+    }
+}
