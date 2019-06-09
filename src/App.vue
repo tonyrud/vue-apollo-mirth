@@ -1,5 +1,13 @@
 <template>
   <v-app>
+    <v-snackbar
+      v-model="snackbarShow"
+      bottom
+      right
+      :timeout="4000"
+    >
+      Added {{patientName}} as a patient
+    </v-snackbar>
     <v-toolbar app>
       <v-toolbar-title class="headline text-uppercase">
         <span>Graphql</span>
@@ -31,32 +39,46 @@
 </template>
 
 <script>
-import PatientTable from "./components/PatientTable";
-import Dialog from "./components/Dialog";
+import patientAddedSubscription from './graphql/Subscriptions/PatientAdded.gql'
+import PatientTable from './components/PatientTable'
+import Dialog from './components/Dialog'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Dialog,
-    PatientTable
+    PatientTable,
   },
   data() {
     return {
-      id: "",
+      id: '',
       dialog: false,
+      snackbarShow: false,
+      patientName: null,
       patient: {
         name: {
-          first: "no data"
-        }
-      }
-    };
+          first: 'no data',
+        },
+      },
+    }
+  },
+  apollo: {
+    $subscribe: {
+      patientAdded: {
+        query: patientAddedSubscription,
+        result({ data: { patientAdded } }) {
+          this.patientName = patientAdded.name.first
+          this.snackbarShow = true
+        },
+      },
+    },
   },
   methods: {
     showDialog() {
-      this.dialog = !this.dialog;
-    }
-  }
-};
+      this.dialog = !this.dialog
+    },
+  },
+}
 </script>
 
 <style lang="scss">

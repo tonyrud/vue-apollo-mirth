@@ -61,7 +61,6 @@ export default {
   },
   methods: {
     submit() {
-      console.log("form submitted", this.inputName);
       this.$apollo.mutate({
         mutation: changePatientName,
         variables: {
